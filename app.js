@@ -19,6 +19,8 @@ const articleSchema = { title: String, content: String };
 
 const Article = mongoose.model("Article", articleSchema);
 
+/////////////////////////All Articles///////////////////////////////////
+
 app.route("/articles")
   .get(function (req, res) {
     Article.find(function (err, articles) {
@@ -54,6 +56,19 @@ app.route("/articles")
         res.send("Successfully deleted all articles.");
       } else {
         res.send(err);
+      }
+    });
+  });
+
+/////////////////////////Individual Articles///////////////////////////////////
+
+app.route("/articles/:articleTitle")
+  .get(function (req, res) {
+    Article.findOne({ title: req.params.articleTitle }, function (err, article) {
+      if (article) {
+        res.send(article);
+      } else {
+        res.send("No articles matching that title was found.");
       }
     });
   });
