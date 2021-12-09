@@ -29,6 +29,24 @@ app.get("/articles", function (req, res) {
   });
 });
 
+app.post("/articles", function (req, res) {
+  const title = req.body.title;
+  const content = req.body.content;
+
+  const newArticle = new Article({
+    title: title,
+    content: content
+  });
+
+  newArticle.save(function (err) {
+    if (!err) {
+      res.send("Successfully added a new article.");
+    } else {
+      res.send(err);
+    }
+  });
+});
+
 app.listen(3000, function () {
   console.log("Server started on port 3000");
 });
