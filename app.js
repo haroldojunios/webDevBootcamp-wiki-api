@@ -27,7 +27,7 @@ app.route("/articles")
       if (!err) {
         res.send(articles);
       } else {
-        res.send(err);
+        res.send(err.message);
       }
     });
   })
@@ -45,7 +45,7 @@ app.route("/articles")
       if (!err) {
         res.send("Successfully added a new article.");
       } else {
-        res.send(err);
+        res.send(err.message);
       }
     });
   })
@@ -55,7 +55,7 @@ app.route("/articles")
       if (!err) {
         res.send("Successfully deleted all articles.");
       } else {
-        res.send(err);
+        res.send(err.message);
       }
     });
   });
@@ -71,6 +71,20 @@ app.route("/articles/:articleTitle")
         res.send("No articles matching that title was found.");
       }
     });
+  })
+
+  .put(function (req, res) {
+    Article.replaceOne(
+      { title: req.params.articleTitle },
+      { title: req.body.title, content: req.body.content },
+      function (err) {
+        if (!err) {
+          res.send("Successfully updated article.");
+        } else {
+          res.send(err.message);
+        }
+      }
+    );
   });
 
 app.listen(3000, function () {
